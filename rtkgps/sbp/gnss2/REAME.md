@@ -1,4 +1,5 @@
 1. install libsbp library
+
 libsbp provides C bindings for Swift Binary Protocol (SBP)
 the native binary protocol used by the Piksi GPS receiver. It is intended to be as portable as possible and is written in standards compliant C with no dependencies other than the standard C libraries.
 
@@ -15,6 +16,7 @@ $sudo make install
 $sudo ldconfig
 
 2. install libserialport
+
 An example C program, intended to be run on a host computer connected to the Piksi, that parses incoming SBP messages from the Piksi and prints some of them to the screen.
 
 At  first install libserialport, getting the code
@@ -39,7 +41,8 @@ https://github.com/swift-nav/libsbp
 https://github.com/swift-nav/libsbp/tree/ca5743b138fb44560d83057f9c49d79c88593904/c
 https://github.com/swift-nav/libsbp/tree/ca5743b138fb44560d83057f9c49d79c88593904/c/example
 
-3. how to use it
+3. how to use it 
+
 main.cpp is an example to use the interface to get the gps data (including imu, magneti,lat,lon)
 
 
