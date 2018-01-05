@@ -23,7 +23,10 @@ extern msg_pos_llh_t      pos_llh;
 extern msg_baseline_heading_dep_a_t pos_heading;
 extern msg_imu_raw_t   imu_data;
 extern msg_mag_raw_t   mag_data;
-
+extern msg_vel_ecef_t   vel_ecef_data;
+extern msg_vel_ned_t   vel_ned_data;
+extern double heading_data;
+extern double heading_mag;
 
 void setup_port();
 void heartbeat_callback(u16 sender_id, u8 len, u8 msg[], void *context);
