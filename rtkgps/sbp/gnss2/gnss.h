@@ -18,6 +18,7 @@ extern "C" {
 #include <libsbp/imu.h>
 #include <libsbp/mag.h>
 
+/*
 extern msg_gps_time_t     gps_time;
 extern msg_pos_llh_t      pos_llh;
 extern msg_baseline_heading_dep_a_t pos_heading;
@@ -27,6 +28,22 @@ extern msg_vel_ecef_t   vel_ecef_data;
 extern msg_vel_ned_t   vel_ned_data;
 extern double heading_data;
 extern double heading_mag;
+*/
+
+
+struct rtk_data_t{
+  msg_gps_time_t     gps_time;
+  msg_pos_llh_t      pos_llh;
+  msg_imu_raw_t   imu_data;
+  msg_mag_raw_t   mag_data;
+  msg_vel_ecef_t   vel_ecef_data;
+  msg_vel_ned_t   vel_ned_data;
+  double     heading_data;
+  double     heading_mag;
+};
+
+int  set_gps_data(rtk_data_t* data, u8 msg[], int type);
+rtk_data_t get_gps_data();
 
 void setup_port();
 void heartbeat_callback(u16 sender_id, u8 len, u8 msg[], void *context);
@@ -40,6 +57,7 @@ u32 piksi_port_read(u8 *buff, u32 n, void *context);
 int open_serial_port(char* port);
 int setup_sbp();
 int process();
+int close_port();
 
  
 #ifdef __cplusplus

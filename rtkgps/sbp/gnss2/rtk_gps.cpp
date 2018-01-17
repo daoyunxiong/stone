@@ -21,8 +21,9 @@ public:
 
 };
 */
-RTK_GPS::RTK_GPS()
+RTK_GPS::RTK_GPS(char* port)
 {
+/*
   gps_time_p = &gps_time;
   pos_llh_p = &pos_llh;
   pos_heading_p = &pos_heading;
@@ -38,12 +39,13 @@ RTK_GPS::RTK_GPS()
  // setup_sbp();
 
  // create_thread();
- // init(port);
+*/
+  init(port);
 }
 
 RTK_GPS::~RTK_GPS()
 {
-
+  close_port();
 }
 
 int RTK_GPS::init(char* port)
@@ -53,6 +55,8 @@ int RTK_GPS::init(char* port)
   setup_sbp();
 
   this->create_thread();
+ // std::cout >> ok >> std::endl;
+  printf("ok");
   return 0;
 }
 
@@ -63,3 +67,7 @@ int RTK_GPS::create_thread()
   return 0;
 }
 
+rtk_data_t RTK_GPS::get_rtk_gps_data()
+{
+  return get_gps_data();
+}
