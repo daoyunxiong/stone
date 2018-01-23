@@ -29,7 +29,7 @@ int  set_gps_data(rtk_data_t* data, u8 msg[], int type)
       break;
     case SBP_MSG_POS_LLH:
       data->pos_llh = *(msg_pos_llh_t *)msg;
-     // printf("thlat: %4.10lf thlon:%4.10lf \n\n ", data->pos_llh.lat, data->pos_llh.lon);
+      printf("thlat: %4.10lf thlon:%4.10lf \n\n ", data->pos_llh.lat, data->pos_llh.lon);
       break;
     case SBP_MSG_IMU_RAW:
       data->imu_data = *(msg_imu_raw_t* )msg;
@@ -46,7 +46,7 @@ int  set_gps_data(rtk_data_t* data, u8 msg[], int type)
       data->heading_mag -=90.0;
       if(data->heading_mag < 0)
         data->heading_mag += 360;
-      printf("magnetometer heading: %f \n ",data->heading_mag);
+     // printf("magnetometer heading: %f \n ",data->heading_mag);
       break;
     case SBP_MSG_VEL_ECEF:
       data->vel_ecef_data = *(msg_vel_ecef_t* )msg;
