@@ -1,6 +1,8 @@
 #include "gnss.h"
 #include <math.h>
 #include <time.h>
+#include <sys/time.h>
+
 #include <pthread.h>
 
 char *serial_port_name = NULL;
@@ -18,10 +20,12 @@ static sbp_msg_callbacks_node_t vel_ecef_node;
 static sbp_msg_callbacks_node_t vel_ned_node;
 
 struct rtk_data_t rtk_data;
+struct timeval tv;
 
 int  set_gps_data(rtk_data_t* data, u8 msg[], int type)
 {
-  pthread_rwlock_wrlock(&rwlock);
+ // pthread_rwlock_wrlock(&rwlock);
+  gettimeofday(&tv, NULL);
   switch(type){
     case SBP_MSG_GPS_TIME:
       data->gps_time = *(msg_gps_time_t *)msg;
@@ -29,12 +33,25 @@ int  set_gps_data(rtk_data_t* data, u8 msg[], int type)
       break;
     case SBP_MSG_POS_LLH:
       data->pos_llh = *(msg_pos_llh_t *)msg;
-      printf("thlat: %4.10lf thlon:%4.10lf \n\n ", data->pos_llh.lat, data->pos_llh.lon);
+      //printf("tow, lat,lon:%d, %4.10lf, %4.10lf \n ", data->pos_llh.tow, data->pos_llh.lat, data->pos_llh.lon);
       break;
     case SBP_MSG_IMU_RAW:
       data->imu_data = *(msg_imu_raw_t* )msg;
-    //  printf("imu_data x,y,z: %d,%d,%d,%d,%d,%d\n ",data->imu_data.acc_x, data->imu_data.acc_y, data->imu_data.acc_z, \
-    //       data->imu_data.gyr_x, data->imu_data.gyr_y, data->imu_data.gyr_z);
+      double acc_xx, acc_yy, acc_zz, gyr_xx, gyr_yy, gyr_zz;
+      acc_xx = data->imu_data.acc_x*9.8 / (0x8000/2) - 0.2898332397;
+      acc_yy = data->imu_data.acc_y*9.8 / (0x8000/2) - 0.1991425289;
+      acc_zz = data->imu_data.acc_z*9.8 / (0x8000/2) + 10.508015281 - 9.8;
+
+      gyr_xx = (double) data->imu_data.gyr_x * 500 / 0x7fff - 1.5439590744;
+      gyr_yy = (double) data->imu_data.gyr_y * 500 / 0x7fff - 0.4343212231;
+      gyr_zz = (double) data->imu_data.gyr_z * 500 / 0x7fff - 1.7124416198;
+
+      data->imu_data_cal.acc_xx = acc_xx;
+      data->imu_data_cal.acc_yy = acc_yy;
+      data->imu_data_cal.acc_zz = acc_zz;
+      printf("time, imu_data tow, x,y,z: %ld.%ld, %d, %d,%d,%d,%d,%d,%d\n ", tv.tv_sec, tv.tv_usec/1000, data->imu_data.tow, data->imu_data.acc_x, data->imu_data.acc_y, data->imu_data.acc_z,   \
+      data->imu_data.gyr_x, data->imu_data.gyr_y, data->imu_data.gyr_z);
+      //printf("xx,yy,zz %f %f %f %f %f %f\n",acc_xx, acc_yy, acc_zz, gyr_xx, gyr_yy, gyr_zz);
       break;
     case SBP_MSG_MAG_RAW:
       data->mag_data = *(msg_mag_raw_t* )msg;
@@ -42,11 +59,16 @@ int  set_gps_data(rtk_data_t* data, u8 msg[], int type)
       data->heading_mag = data->heading_mag*(180.0/M_PI) + 180;
       data->heading_mag = 360 - data->heading_mag;
       if(data->heading_mag < 0)
-      data->heading_mag +=360.0;
-      data->heading_mag -=90.0;
+      data->heading_mag += 360.0;
+      data->heading_mag -= 90.0;
       if(data->heading_mag < 0)
         data->heading_mag += 360;
+      
+      double ll ;
+      ll = sqrt( data->mag_data.mag_x * data->mag_data.mag_x + data->mag_data.mag_y * data->mag_data.mag_y + \
+      data->mag_data.mag_z * data->mag_data.mag_z);
      // printf("magnetometer heading: %f \n ",data->heading_mag);
+ //     printf("the mod length is %f \n", ll);
       break;
     case SBP_MSG_VEL_ECEF:
       data->vel_ecef_data = *(msg_vel_ecef_t* )msg;
@@ -59,20 +81,20 @@ int  set_gps_data(rtk_data_t* data, u8 msg[], int type)
         data->heading_data = atan2(data->vel_ned_data.e, data->vel_ned_data.n);
         data->heading_data *= 180.0/M_PI;
       }
-   //   printf("the gps heading is %f \n", data->heading_data);
+      //printf("the gps heading is %f \n", data->heading_data);
       break;
     default:
       break;
   }
-  pthread_rwlock_unlock(&rwlock);
+//  pthread_rwlock_unlock(&rwlock);
 }
 
 rtk_data_t get_gps_data()
 {
-  pthread_rwlock_rdlock(&rwlock);
+ // pthread_rwlock_rdlock(&rwlock);
   rtk_data_t rtk_data_buf;
   rtk_data_buf = rtk_data;
-  pthread_rwlock_unlock(&rwlock);
+ // pthread_rwlock_unlock(&rwlock);
   return rtk_data_buf;
 }
 
@@ -162,7 +184,7 @@ void sbp_imu_callback(u16 sender_id, u8 len, u8 msg[], void *context)
   (void)sender_id, (void)len, (void)context;
   set_gps_data(&rtk_data, msg, SBP_MSG_IMU_RAW);
 //  imu_data = *(msg_imu_raw_t* )msg;
-//  printf("imu : %d %d %d \n", imu_data.acc_x, imu_data.acc_y, imu_data.acc_z);
+ //  printf("imu : %d %d %d \n", imu_data.acc_x, imu_data.acc_y, imu_data.acc_z);
 }
 
 void sbp_mag_callback(u16 sender_id, u8 len, u8 msg[], void *context)
@@ -260,4 +282,4 @@ int close_port()
   free(serial_port_name);
   return 0;
 }
-
+	

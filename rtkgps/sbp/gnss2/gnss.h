@@ -30,6 +30,14 @@ extern double heading_data;
 extern double heading_mag;
 */
 
+struct imu_t{
+  double acc_xx;
+  double acc_yy;
+  double acc_zz;
+  double agy_xx;
+  double agy_yy;
+  double agy_zz;
+};
 
 struct rtk_data_t{
   msg_gps_time_t     gps_time;
@@ -40,6 +48,7 @@ struct rtk_data_t{
   msg_vel_ned_t   vel_ned_data;
   double     heading_data;
   double     heading_mag;
+  imu_t  imu_data_cal;
 };
 
 int  set_gps_data(rtk_data_t* data, u8 msg[], int type);
