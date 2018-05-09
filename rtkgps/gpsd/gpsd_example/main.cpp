@@ -8,14 +8,18 @@
 #include <iomanip>
 #include <thread>
 #include "GpsPosition.h"
+#include <signal.h>
 
 using namespace std;
 
 //Controlling the thread flow
 bool gReadGps = true;
 
-
-
+void signal_callback_handler(int signum)
+{
+   printf("Caught signal %d\n",signum);
+   gReadGps = false;
+}
 /// Thread which reads all position form the gpsd
 /// server
 void read_gpsd_data() {
@@ -47,8 +51,9 @@ void read_gpsd_data() {
 ///it in a Contaier
 int main(void)
 {
+    signal(SIGINT, signal_callback_handler);
     std::thread gps_thread(read_gpsd_data);
-    for (int i=0; i<10000; i++)
+    while(gReadGps)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         GPSPosition last_pos = GPSPosition::get_last_3d_fix_value();
@@ -61,7 +66,6 @@ int main(void)
                   << " time: " <<std::setprecision(11) << last_pos.get_gpstime() 
                   << std::endl;
      }
-    gReadGps = false;
     gps_thread.join();
     return 0;
 }
