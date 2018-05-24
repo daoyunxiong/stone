@@ -1,0 +1,15 @@
+1.depend on SerialPort and SBP library
+2.example
+  make
+  sudo ./getgps
+
+when plus the gps serial port , /dev/ttyUSB0 would be fould , record the gps data with ttyUSB0.
+The recorded data in insert to gps.txt
+
+3, data format
+127968000,22.5798118556,113.9260646227,3,11,0.000000,267.424852,-14,1
+
+fprintf(fp, "%d,%4.10lf,%4.10lf,%d,%d,%f,%f,%d,%d\n",rtk_data.pos_llh.tow, rtk_data.pos_llh.lat, rtk_data.pos_llh.lon, rtk_data.pos_llh.flags, rtk_data.pos_llh.n_sats, rtk_data.heading_data, rtk_data.heading_mag, rtk_data.vel_ned_data.n, rtk_data.vel_ned_data.e);
+
+4.copy the gps.txt to the paint program , it will paint the gps utm trace with opencv.
+

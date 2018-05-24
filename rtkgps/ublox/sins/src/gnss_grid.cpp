@@ -357,6 +357,9 @@ void Gnss_grid::mainLoop()
 
     // delay 10ms
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    cout << gnss.m_lat << endl;
+    cout << gnss.m_lon << endl;
+ 
   }
 
   mbStopped = true;

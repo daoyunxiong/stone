@@ -54,6 +54,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "../codegen/lib/Gauss_projection_Positive"
   "../codegen/lib/gnss_sins_ekf_loose_integration"
   "../../Publisher/include"
+  ".././include"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/dyxiong/workstation/git_proj/stone/rtkgps/ublox/sins/src/circle_buffer.cpp" "/home/dyxiong/workstation/git_proj/stone/rtkgps/ublox/sins/build/CMakeFiles/gnss_grid_core.dir/src/circle_buffer.cpp.o"
@@ -72,6 +73,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../codegen/lib/Gauss_projection_Positive"
   "../codegen/lib/gnss_sins_ekf_loose_integration"
   "../../Publisher/include"
+  ".././include"
   )
 
 # Targets to which this target links.

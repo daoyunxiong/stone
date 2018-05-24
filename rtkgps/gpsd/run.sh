@@ -1,1 +1,2 @@
-g++ gps.cpp -lgps -std=c++11
+g++ -g gps.cpp -lgps -std=c++14
+#gcc  gps_client.c -lgps -lm

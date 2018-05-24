@@ -33,7 +33,13 @@ int  set_gps_data(rtk_data_t* data, u8 msg[], int type)
       break;
     case SBP_MSG_POS_LLH:
       data->pos_llh = *(msg_pos_llh_t *)msg;
-      //printf("tow, lat,lon:%d, %4.10lf, %4.10lf \n ", data->pos_llh.tow, data->pos_llh.lat, data->pos_llh.lon);
+      static int flag = 1;
+      if(1 == flag)
+      {
+        printf("tow,lat,lon,rtk status, satallites num,h_accuracy,v_accuracy\n");
+        flag = 0;
+      }
+      printf("lat,lon,%d,%4.10lf,%4.10lf,%d,%d,%d,%d,%d\n ", data->pos_llh.tow, data->pos_llh.lat, data->pos_llh.lon, data->pos_llh.flags, data->pos_llh.n_sats, data->pos_llh.h_accuracy, data->pos_llh.v_accuracy, data->pos_llh.flags);
       break;
     case SBP_MSG_IMU_RAW:
       data->imu_data = *(msg_imu_raw_t* )msg;
@@ -49,7 +55,7 @@ int  set_gps_data(rtk_data_t* data, u8 msg[], int type)
       data->imu_data_cal.acc_xx = acc_xx;
       data->imu_data_cal.acc_yy = acc_yy;
       data->imu_data_cal.acc_zz = acc_zz;
-      printf("time, imu_data tow, x,y,z: %ld.%ld, %d, %d,%d,%d,%d,%d,%d\n ", tv.tv_sec, tv.tv_usec/1000, data->imu_data.tow, data->imu_data.acc_x, data->imu_data.acc_y, data->imu_data.acc_z,   \
+     // printf("time, imu_data tow, x,y,z: %ld.%ld, %d, %d,%d,%d,%d,%d,%d\n ", tv.tv_sec, tv.tv_usec/1000, data->imu_data.tow, data->imu_data.acc_x, data->imu_data.acc_y, data->imu_data.acc_z,   \
       data->imu_data.gyr_x, data->imu_data.gyr_y, data->imu_data.gyr_z);
       //printf("xx,yy,zz %f %f %f %f %f %f\n",acc_xx, acc_yy, acc_zz, gyr_xx, gyr_yy, gyr_zz);
       break;
@@ -67,7 +73,7 @@ int  set_gps_data(rtk_data_t* data, u8 msg[], int type)
       double ll ;
       ll = sqrt( data->mag_data.mag_x * data->mag_data.mag_x + data->mag_data.mag_y * data->mag_data.mag_y + \
       data->mag_data.mag_z * data->mag_data.mag_z);
-     // printf("magnetometer heading: %f \n ",data->heading_mag);
+     // print("magnetometer heading: %f \n ",data->heading_mag);
  //     printf("the mod length is %f \n", ll);
       break;
     case SBP_MSG_VEL_ECEF:

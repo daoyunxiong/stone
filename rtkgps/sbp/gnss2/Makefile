@@ -3,7 +3,7 @@ CC = g++
 CFLAGS=-I$(IDIR)  -std=c++11 -fpermissive
 LIBS=-lsbp -lserialport -lpthread
 
-getgps:
-	$(CC) gnss.c MadgwickAHRS.cpp rtk_gps.cpp main.cpp -o $@  $(CFLAGS) $(LIBS)
+all:
+	$(CC) gnss.c MadgwickAHRS.cpp rtk_gps.cpp main.cpp -o getgps  $(CFLAGS) $(LIBS)
 clean:
 	rm getgps

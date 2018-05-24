@@ -56,6 +56,28 @@ CMAKE_BINARY_DIR = /home/dyxiong/workstation/git_proj/stone/rtkgps/ublox/sins/bu
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/cmake-gui -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -77,28 +99,6 @@ list_install_components:
 list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/cmake-gui -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
 
 # Special rule for the target install/local
 install/local: preinstall
@@ -168,17 +168,30 @@ gnss_grid_core/fast:
 .PHONY : gnss_grid_core/fast
 
 #=============================================================================
-# Target rules for targets named testgns
+# Target rules for targets named ublox_reader
 
 # Build rule for target.
-testgns: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 testgns
-.PHONY : testgns
+ublox_reader: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ublox_reader
+.PHONY : ublox_reader
 
 # fast build rule for target.
-testgns/fast:
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/build
-.PHONY : testgns/fast
+ublox_reader/fast:
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/build
+.PHONY : ublox_reader/fast
+
+#=============================================================================
+# Target rules for targets named test_gnss_grid
+
+# Build rule for target.
+test_gnss_grid: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_gnss_grid
+.PHONY : test_gnss_grid
+
+# fast build rule for target.
+test_gnss_grid/fast:
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/build
+.PHONY : test_gnss_grid/fast
 
 codegen/codegen_main.o: codegen/codegen_main.c.o
 
@@ -187,7 +200,8 @@ codegen/codegen_main.o: codegen/codegen_main.c.o
 # target to build an object file
 codegen/codegen_main.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/codegen_main.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/codegen_main.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/codegen_main.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/codegen_main.c.o
 .PHONY : codegen/codegen_main.c.o
 
 codegen/codegen_main.i: codegen/codegen_main.c.i
@@ -197,7 +211,8 @@ codegen/codegen_main.i: codegen/codegen_main.c.i
 # target to preprocess a source file
 codegen/codegen_main.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/codegen_main.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/codegen_main.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/codegen_main.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/codegen_main.c.i
 .PHONY : codegen/codegen_main.c.i
 
 codegen/codegen_main.s: codegen/codegen_main.c.s
@@ -207,7 +222,8 @@ codegen/codegen_main.s: codegen/codegen_main.c.s
 # target to generate assembly for a file
 codegen/codegen_main.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/codegen_main.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/codegen_main.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/codegen_main.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/codegen_main.c.s
 .PHONY : codegen/codegen_main.c.s
 
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.o: codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.o
@@ -217,7 +233,8 @@ codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.o: codegen/lib/G
 # target to build an object file
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.o
 .PHONY : codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.o
 
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.i: codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.i
@@ -227,7 +244,8 @@ codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.i: codegen/lib/G
 # target to preprocess a source file
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.i
 .PHONY : codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.i
 
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.s: codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.s
@@ -237,7 +255,8 @@ codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.s: codegen/lib/G
 # target to generate assembly for a file
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.s
 .PHONY : codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive.c.s
 
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.o: codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.o
@@ -247,7 +266,8 @@ codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.o: co
 # target to build an object file
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.o
 .PHONY : codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.o
 
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.i: codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.i
@@ -257,7 +277,8 @@ codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.i: co
 # target to preprocess a source file
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.i
 .PHONY : codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.i
 
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.s: codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.s
@@ -267,7 +288,8 @@ codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.s: co
 # target to generate assembly for a file
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.s
 .PHONY : codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_initialize.c.s
 
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.o: codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.o
@@ -277,7 +299,8 @@ codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.o: cod
 # target to build an object file
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.o
 .PHONY : codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.o
 
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.i: codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.i
@@ -287,7 +310,8 @@ codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.i: cod
 # target to preprocess a source file
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.i
 .PHONY : codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.i
 
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.s: codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.s
@@ -297,7 +321,8 @@ codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.s: cod
 # target to generate assembly for a file
 codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.s
 .PHONY : codegen/lib/Gauss_projection_Positive/Gauss_projection_Positive_terminate.c.s
 
 codegen/lib/common/rtGetInf.o: codegen/lib/common/rtGetInf.c.o
@@ -307,7 +332,8 @@ codegen/lib/common/rtGetInf.o: codegen/lib/common/rtGetInf.c.o
 # target to build an object file
 codegen/lib/common/rtGetInf.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/common/rtGetInf.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/common/rtGetInf.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/common/rtGetInf.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/common/rtGetInf.c.o
 .PHONY : codegen/lib/common/rtGetInf.c.o
 
 codegen/lib/common/rtGetInf.i: codegen/lib/common/rtGetInf.c.i
@@ -317,7 +343,8 @@ codegen/lib/common/rtGetInf.i: codegen/lib/common/rtGetInf.c.i
 # target to preprocess a source file
 codegen/lib/common/rtGetInf.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/common/rtGetInf.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/common/rtGetInf.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/common/rtGetInf.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/common/rtGetInf.c.i
 .PHONY : codegen/lib/common/rtGetInf.c.i
 
 codegen/lib/common/rtGetInf.s: codegen/lib/common/rtGetInf.c.s
@@ -327,7 +354,8 @@ codegen/lib/common/rtGetInf.s: codegen/lib/common/rtGetInf.c.s
 # target to generate assembly for a file
 codegen/lib/common/rtGetInf.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/common/rtGetInf.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/common/rtGetInf.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/common/rtGetInf.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/common/rtGetInf.c.s
 .PHONY : codegen/lib/common/rtGetInf.c.s
 
 codegen/lib/common/rtGetNaN.o: codegen/lib/common/rtGetNaN.c.o
@@ -337,7 +365,8 @@ codegen/lib/common/rtGetNaN.o: codegen/lib/common/rtGetNaN.c.o
 # target to build an object file
 codegen/lib/common/rtGetNaN.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/common/rtGetNaN.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/common/rtGetNaN.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/common/rtGetNaN.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/common/rtGetNaN.c.o
 .PHONY : codegen/lib/common/rtGetNaN.c.o
 
 codegen/lib/common/rtGetNaN.i: codegen/lib/common/rtGetNaN.c.i
@@ -347,7 +376,8 @@ codegen/lib/common/rtGetNaN.i: codegen/lib/common/rtGetNaN.c.i
 # target to preprocess a source file
 codegen/lib/common/rtGetNaN.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/common/rtGetNaN.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/common/rtGetNaN.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/common/rtGetNaN.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/common/rtGetNaN.c.i
 .PHONY : codegen/lib/common/rtGetNaN.c.i
 
 codegen/lib/common/rtGetNaN.s: codegen/lib/common/rtGetNaN.c.s
@@ -357,7 +387,8 @@ codegen/lib/common/rtGetNaN.s: codegen/lib/common/rtGetNaN.c.s
 # target to generate assembly for a file
 codegen/lib/common/rtGetNaN.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/common/rtGetNaN.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/common/rtGetNaN.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/common/rtGetNaN.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/common/rtGetNaN.c.s
 .PHONY : codegen/lib/common/rtGetNaN.c.s
 
 codegen/lib/common/rt_nonfinite.o: codegen/lib/common/rt_nonfinite.c.o
@@ -367,7 +398,8 @@ codegen/lib/common/rt_nonfinite.o: codegen/lib/common/rt_nonfinite.c.o
 # target to build an object file
 codegen/lib/common/rt_nonfinite.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/common/rt_nonfinite.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/common/rt_nonfinite.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/common/rt_nonfinite.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/common/rt_nonfinite.c.o
 .PHONY : codegen/lib/common/rt_nonfinite.c.o
 
 codegen/lib/common/rt_nonfinite.i: codegen/lib/common/rt_nonfinite.c.i
@@ -377,7 +409,8 @@ codegen/lib/common/rt_nonfinite.i: codegen/lib/common/rt_nonfinite.c.i
 # target to preprocess a source file
 codegen/lib/common/rt_nonfinite.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/common/rt_nonfinite.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/common/rt_nonfinite.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/common/rt_nonfinite.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/common/rt_nonfinite.c.i
 .PHONY : codegen/lib/common/rt_nonfinite.c.i
 
 codegen/lib/common/rt_nonfinite.s: codegen/lib/common/rt_nonfinite.c.s
@@ -387,7 +420,8 @@ codegen/lib/common/rt_nonfinite.s: codegen/lib/common/rt_nonfinite.c.s
 # target to generate assembly for a file
 codegen/lib/common/rt_nonfinite.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/common/rt_nonfinite.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/common/rt_nonfinite.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/common/rt_nonfinite.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/common/rt_nonfinite.c.s
 .PHONY : codegen/lib/common/rt_nonfinite.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/cosd.o: codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.o
@@ -397,7 +431,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/cosd.o: codegen/lib/gnss_sins_ekf_lo
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/cosd.i: codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.i
@@ -407,7 +442,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/cosd.i: codegen/lib/gnss_sins_ekf_lo
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/cosd.s: codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.s
@@ -417,7 +453,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/cosd.s: codegen/lib/gnss_sins_ekf_lo
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/cosd.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/cross.o: codegen/lib/gnss_sins_ekf_loose_integration/cross.c.o
@@ -427,7 +464,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/cross.o: codegen/lib/gnss_sins_ekf_l
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/cross.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/cross.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/cross.i: codegen/lib/gnss_sins_ekf_loose_integration/cross.c.i
@@ -437,7 +475,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/cross.i: codegen/lib/gnss_sins_ekf_l
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/cross.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/cross.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/cross.s: codegen/lib/gnss_sins_ekf_loose_integration/cross.c.s
@@ -447,7 +486,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/cross.s: codegen/lib/gnss_sins_ekf_l
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/cross.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/cross.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/cross.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/diag.o: codegen/lib/gnss_sins_ekf_loose_integration/diag.c.o
@@ -457,7 +497,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/diag.o: codegen/lib/gnss_sins_ekf_lo
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/diag.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/diag.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/diag.i: codegen/lib/gnss_sins_ekf_loose_integration/diag.c.i
@@ -467,7 +508,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/diag.i: codegen/lib/gnss_sins_ekf_lo
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/diag.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/diag.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/diag.s: codegen/lib/gnss_sins_ekf_loose_integration/diag.c.s
@@ -477,7 +519,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/diag.s: codegen/lib/gnss_sins_ekf_lo
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/diag.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/diag.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/diag.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.o: codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.o
@@ -487,7 +530,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.o: codegen/li
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.i: codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.i
@@ -497,7 +541,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.i: codegen/li
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.s: codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.s
@@ -507,7 +552,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.s: codegen/li
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/discrete_process_noise.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/earthrad.o: codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.o
@@ -517,7 +563,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/earthrad.o: codegen/lib/gnss_sins_ek
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/earthrad.i: codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.i
@@ -527,7 +574,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/earthrad.i: codegen/lib/gnss_sins_ek
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/earthrad.s: codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.s
@@ -537,7 +585,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/earthrad.s: codegen/lib/gnss_sins_ek
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/earthrad.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.o: codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.o
@@ -547,7 +596,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.o: codegen/lib/gnss_sins_ekf
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.i: codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.i
@@ -557,7 +607,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.i: codegen/lib/gnss_sins_ekf
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.s: codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.s
@@ -567,7 +618,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.s: codegen/lib/gnss_sins_ekf
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/eul2Cbn.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/eul2q.o: codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.o
@@ -577,7 +629,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/eul2q.o: codegen/lib/gnss_sins_ekf_l
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/eul2q.i: codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.i
@@ -587,7 +640,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/eul2q.i: codegen/lib/gnss_sins_ekf_l
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/eul2q.s: codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.s
@@ -597,7 +651,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/eul2q.s: codegen/lib/gnss_sins_ekf_l
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/eul2q.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/expm.o: codegen/lib/gnss_sins_ekf_loose_integration/expm.c.o
@@ -607,7 +662,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/expm.o: codegen/lib/gnss_sins_ekf_lo
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/expm.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/expm.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/expm.i: codegen/lib/gnss_sins_ekf_loose_integration/expm.c.i
@@ -617,7 +673,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/expm.i: codegen/lib/gnss_sins_ekf_lo
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/expm.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/expm.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/expm.s: codegen/lib/gnss_sins_ekf_loose_integration/expm.c.s
@@ -627,7 +684,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/expm.s: codegen/lib/gnss_sins_ekf_lo
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/expm.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/expm.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/expm.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/eye.o: codegen/lib/gnss_sins_ekf_loose_integration/eye.c.o
@@ -637,7 +695,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/eye.o: codegen/lib/gnss_sins_ekf_loo
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/eye.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/eye.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/eye.i: codegen/lib/gnss_sins_ekf_loose_integration/eye.c.i
@@ -647,7 +706,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/eye.i: codegen/lib/gnss_sins_ekf_loo
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/eye.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/eye.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/eye.s: codegen/lib/gnss_sins_ekf_loose_integration/eye.c.s
@@ -657,7 +717,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/eye.s: codegen/lib/gnss_sins_ekf_loo
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/eye.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/eye.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/eye.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/glocal.o: codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.o
@@ -667,7 +728,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/glocal.o: codegen/lib/gnss_sins_ekf_
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/glocal.i: codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.i
@@ -677,7 +739,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/glocal.i: codegen/lib/gnss_sins_ekf_
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/glocal.s: codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.s
@@ -687,7 +750,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/glocal.s: codegen/lib/gnss_sins_ekf_
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/glocal.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.o: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.o
@@ -697,7 +761,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.o: c
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.i: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.i
@@ -707,7 +772,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.i: c
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.s: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.s
@@ -717,7 +783,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.s: c
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.o: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.o
@@ -727,7 +794,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_init
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.i: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.i
@@ -737,7 +805,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_init
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.s: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.s
@@ -747,7 +816,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_init
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_initialize.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.o: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.o
@@ -757,7 +827,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwu
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.i: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.i
@@ -767,7 +838,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwu
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.s: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.s
@@ -777,7 +849,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwu
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_rtwutil.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.o: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.o
@@ -787,7 +860,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_term
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.i: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.i
@@ -797,7 +871,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_term
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.s: codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.s
@@ -807,7 +882,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_term
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_sins_ekf_loose_integration_terminate.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.o: codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.o
@@ -817,7 +893,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.o: codegen/lib/gnss_sins
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.i: codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.i
@@ -827,7 +904,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.i: codegen/lib/gnss_sins
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.s: codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.s
@@ -837,7 +915,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.s: codegen/lib/gnss_sins
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/gnss_update.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/imu_update.o: codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.o
@@ -847,7 +926,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/imu_update.o: codegen/lib/gnss_sins_
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/imu_update.i: codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.i
@@ -857,7 +937,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/imu_update.i: codegen/lib/gnss_sins_
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/imu_update.s: codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.s
@@ -867,7 +948,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/imu_update.s: codegen/lib/gnss_sins_
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/imu_update.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/mean.o: codegen/lib/gnss_sins_ekf_loose_integration/mean.c.o
@@ -877,7 +959,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mean.o: codegen/lib/gnss_sins_ekf_lo
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/mean.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mean.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/mean.i: codegen/lib/gnss_sins_ekf_loose_integration/mean.c.i
@@ -887,7 +970,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mean.i: codegen/lib/gnss_sins_ekf_lo
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/mean.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mean.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/mean.s: codegen/lib/gnss_sins_ekf_loose_integration/mean.c.s
@@ -897,7 +981,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mean.s: codegen/lib/gnss_sins_ekf_lo
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/mean.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mean.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mean.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/mldivide.o: codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.o
@@ -907,7 +992,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mldivide.o: codegen/lib/gnss_sins_ek
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/mldivide.i: codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.i
@@ -917,7 +1003,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mldivide.i: codegen/lib/gnss_sins_ek
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/mldivide.s: codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.s
@@ -927,7 +1014,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mldivide.s: codegen/lib/gnss_sins_ek
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mldivide.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/mod.o: codegen/lib/gnss_sins_ekf_loose_integration/mod.c.o
@@ -937,7 +1025,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mod.o: codegen/lib/gnss_sins_ekf_loo
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/mod.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mod.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/mod.i: codegen/lib/gnss_sins_ekf_loose_integration/mod.c.i
@@ -947,7 +1036,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mod.i: codegen/lib/gnss_sins_ekf_loo
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/mod.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mod.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/mod.s: codegen/lib/gnss_sins_ekf_loose_integration/mod.c.s
@@ -957,7 +1047,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mod.s: codegen/lib/gnss_sins_ekf_loo
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/mod.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mod.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mod.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.o: codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.o
@@ -967,7 +1058,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.o: codegen/lib/gnss_sins_ek
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.i: codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.i
@@ -977,7 +1069,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.i: codegen/lib/gnss_sins_ek
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.s: codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.s
@@ -987,7 +1080,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.s: codegen/lib/gnss_sins_ek
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/mrdivide.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/navrate.o: codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.o
@@ -997,7 +1091,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/navrate.o: codegen/lib/gnss_sins_ekf
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/navrate.i: codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.i
@@ -1007,7 +1102,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/navrate.i: codegen/lib/gnss_sins_ekf
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/navrate.s: codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.s
@@ -1017,7 +1113,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/navrate.s: codegen/lib/gnss_sins_ekf
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/navrate.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/norm.o: codegen/lib/gnss_sins_ekf_loose_integration/norm.c.o
@@ -1027,7 +1124,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/norm.o: codegen/lib/gnss_sins_ekf_lo
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/norm.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/norm.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/norm.i: codegen/lib/gnss_sins_ekf_loose_integration/norm.c.i
@@ -1037,7 +1135,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/norm.i: codegen/lib/gnss_sins_ekf_lo
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/norm.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/norm.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/norm.s: codegen/lib/gnss_sins_ekf_loose_integration/norm.c.s
@@ -1047,7 +1146,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/norm.s: codegen/lib/gnss_sins_ekf_lo
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/norm.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/norm.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/norm.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/power.o: codegen/lib/gnss_sins_ekf_loose_integration/power.c.o
@@ -1057,7 +1157,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/power.o: codegen/lib/gnss_sins_ekf_l
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/power.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/power.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/power.i: codegen/lib/gnss_sins_ekf_loose_integration/power.c.i
@@ -1067,7 +1168,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/power.i: codegen/lib/gnss_sins_ekf_l
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/power.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/power.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/power.s: codegen/lib/gnss_sins_ekf_loose_integration/power.c.s
@@ -1077,7 +1179,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/power.s: codegen/lib/gnss_sins_ekf_l
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/power.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/power.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/power.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/q2eul.o: codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.o
@@ -1087,7 +1190,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/q2eul.o: codegen/lib/gnss_sins_ekf_l
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/q2eul.i: codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.i
@@ -1097,7 +1201,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/q2eul.i: codegen/lib/gnss_sins_ekf_l
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/q2eul.s: codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.s
@@ -1107,7 +1212,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/q2eul.s: codegen/lib/gnss_sins_ekf_l
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/q2eul.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/qupdt.o: codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.o
@@ -1117,7 +1223,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/qupdt.o: codegen/lib/gnss_sins_ekf_l
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/qupdt.i: codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.i
@@ -1127,7 +1234,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/qupdt.i: codegen/lib/gnss_sins_ekf_l
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/qupdt.s: codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.s
@@ -1137,7 +1245,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/qupdt.s: codegen/lib/gnss_sins_ekf_l
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/qupdt.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/sind.o: codegen/lib/gnss_sins_ekf_loose_integration/sind.c.o
@@ -1147,7 +1256,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/sind.o: codegen/lib/gnss_sins_ekf_lo
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/sind.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/sind.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/sind.i: codegen/lib/gnss_sins_ekf_loose_integration/sind.c.i
@@ -1157,7 +1267,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/sind.i: codegen/lib/gnss_sins_ekf_lo
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/sind.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/sind.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/sind.s: codegen/lib/gnss_sins_ekf_loose_integration/sind.c.s
@@ -1167,7 +1278,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/sind.s: codegen/lib/gnss_sins_ekf_lo
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/sind.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/sind.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/sind.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/var.o: codegen/lib/gnss_sins_ekf_loose_integration/var.c.o
@@ -1177,7 +1289,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/var.o: codegen/lib/gnss_sins_ekf_loo
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/var.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/var.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/var.i: codegen/lib/gnss_sins_ekf_loose_integration/var.c.i
@@ -1187,7 +1300,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/var.i: codegen/lib/gnss_sins_ekf_loo
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/var.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/var.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/var.s: codegen/lib/gnss_sins_ekf_loose_integration/var.c.s
@@ -1197,7 +1311,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/var.s: codegen/lib/gnss_sins_ekf_loo
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/var.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/var.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/var.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.o: codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.o
@@ -1207,7 +1322,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.o: codegen/lib/gnss_sins_
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.i: codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.i
@@ -1217,7 +1333,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.i: codegen/lib/gnss_sins_
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.s: codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.s
@@ -1227,7 +1344,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.s: codegen/lib/gnss_sins_
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/wgsxyz2ned.c.s
 
 codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.o: codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.o
@@ -1237,7 +1355,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.o: codegen/lib/gnss_sins_ekf_
 # target to build an object file
 codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.o
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.o
 
 codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.i: codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.i
@@ -1247,7 +1366,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.i: codegen/lib/gnss_sins_ekf_
 # target to preprocess a source file
 codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.i
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.i
 
 codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.s: codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.s
@@ -1257,7 +1377,8 @@ codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.s: codegen/lib/gnss_sins_ekf_
 # target to generate assembly for a file
 codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.s
 .PHONY : codegen/lib/gnss_sins_ekf_loose_integration/xgetrf.c.s
 
 src/circle_buffer.o: src/circle_buffer.cpp.o
@@ -1267,7 +1388,8 @@ src/circle_buffer.o: src/circle_buffer.cpp.o
 # target to build an object file
 src/circle_buffer.cpp.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/src/circle_buffer.cpp.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/circle_buffer.cpp.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/circle_buffer.cpp.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/circle_buffer.cpp.o
 .PHONY : src/circle_buffer.cpp.o
 
 src/circle_buffer.i: src/circle_buffer.cpp.i
@@ -1277,7 +1399,8 @@ src/circle_buffer.i: src/circle_buffer.cpp.i
 # target to preprocess a source file
 src/circle_buffer.cpp.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/src/circle_buffer.cpp.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/circle_buffer.cpp.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/circle_buffer.cpp.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/circle_buffer.cpp.i
 .PHONY : src/circle_buffer.cpp.i
 
 src/circle_buffer.s: src/circle_buffer.cpp.s
@@ -1287,7 +1410,8 @@ src/circle_buffer.s: src/circle_buffer.cpp.s
 # target to generate assembly for a file
 src/circle_buffer.cpp.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/src/circle_buffer.cpp.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/circle_buffer.cpp.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/circle_buffer.cpp.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/circle_buffer.cpp.s
 .PHONY : src/circle_buffer.cpp.s
 
 src/gnss_grid.o: src/gnss_grid.cpp.o
@@ -1297,7 +1421,8 @@ src/gnss_grid.o: src/gnss_grid.cpp.o
 # target to build an object file
 src/gnss_grid.cpp.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/src/gnss_grid.cpp.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/gnss_grid.cpp.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/gnss_grid.cpp.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/gnss_grid.cpp.o
 .PHONY : src/gnss_grid.cpp.o
 
 src/gnss_grid.i: src/gnss_grid.cpp.i
@@ -1307,7 +1432,8 @@ src/gnss_grid.i: src/gnss_grid.cpp.i
 # target to preprocess a source file
 src/gnss_grid.cpp.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/src/gnss_grid.cpp.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/gnss_grid.cpp.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/gnss_grid.cpp.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/gnss_grid.cpp.i
 .PHONY : src/gnss_grid.cpp.i
 
 src/gnss_grid.s: src/gnss_grid.cpp.s
@@ -1317,7 +1443,8 @@ src/gnss_grid.s: src/gnss_grid.cpp.s
 # target to generate assembly for a file
 src/gnss_grid.cpp.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/src/gnss_grid.cpp.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/gnss_grid.cpp.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/gnss_grid.cpp.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/gnss_grid.cpp.s
 .PHONY : src/gnss_grid.cpp.s
 
 src/serial.o: src/serial.cpp.o
@@ -1327,7 +1454,8 @@ src/serial.o: src/serial.cpp.o
 # target to build an object file
 src/serial.cpp.o:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/src/serial.cpp.o
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/serial.cpp.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/serial.cpp.o
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/serial.cpp.o
 .PHONY : src/serial.cpp.o
 
 src/serial.i: src/serial.cpp.i
@@ -1337,7 +1465,8 @@ src/serial.i: src/serial.cpp.i
 # target to preprocess a source file
 src/serial.cpp.i:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/src/serial.cpp.i
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/serial.cpp.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/serial.cpp.i
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/serial.cpp.i
 .PHONY : src/serial.cpp.i
 
 src/serial.s: src/serial.cpp.s
@@ -1347,8 +1476,36 @@ src/serial.s: src/serial.cpp.s
 # target to generate assembly for a file
 src/serial.cpp.s:
 	$(MAKE) -f CMakeFiles/gnss_grid_core.dir/build.make CMakeFiles/gnss_grid_core.dir/src/serial.cpp.s
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/serial.cpp.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/serial.cpp.s
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/serial.cpp.s
 .PHONY : src/serial.cpp.s
+
+src/test_gnss_grid.o: src/test_gnss_grid.cpp.o
+
+.PHONY : src/test_gnss_grid.o
+
+# target to build an object file
+src/test_gnss_grid.cpp.o:
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/test_gnss_grid.cpp.o
+.PHONY : src/test_gnss_grid.cpp.o
+
+src/test_gnss_grid.i: src/test_gnss_grid.cpp.i
+
+.PHONY : src/test_gnss_grid.i
+
+# target to preprocess a source file
+src/test_gnss_grid.cpp.i:
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/test_gnss_grid.cpp.i
+.PHONY : src/test_gnss_grid.cpp.i
+
+src/test_gnss_grid.s: src/test_gnss_grid.cpp.s
+
+.PHONY : src/test_gnss_grid.s
+
+# target to generate assembly for a file
+src/test_gnss_grid.cpp.s:
+	$(MAKE) -f CMakeFiles/test_gnss_grid.dir/build.make CMakeFiles/test_gnss_grid.dir/src/test_gnss_grid.cpp.s
+.PHONY : src/test_gnss_grid.cpp.s
 
 src/ublox_reader.o: src/ublox_reader.cpp.o
 
@@ -1356,7 +1513,7 @@ src/ublox_reader.o: src/ublox_reader.cpp.o
 
 # target to build an object file
 src/ublox_reader.cpp.o:
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/ublox_reader.cpp.o
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/ublox_reader.cpp.o
 .PHONY : src/ublox_reader.cpp.o
 
 src/ublox_reader.i: src/ublox_reader.cpp.i
@@ -1365,7 +1522,7 @@ src/ublox_reader.i: src/ublox_reader.cpp.i
 
 # target to preprocess a source file
 src/ublox_reader.cpp.i:
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/ublox_reader.cpp.i
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/ublox_reader.cpp.i
 .PHONY : src/ublox_reader.cpp.i
 
 src/ublox_reader.s: src/ublox_reader.cpp.s
@@ -1374,7 +1531,7 @@ src/ublox_reader.s: src/ublox_reader.cpp.s
 
 # target to generate assembly for a file
 src/ublox_reader.cpp.s:
-	$(MAKE) -f CMakeFiles/testgns.dir/build.make CMakeFiles/testgns.dir/src/ublox_reader.cpp.s
+	$(MAKE) -f CMakeFiles/ublox_reader.dir/build.make CMakeFiles/ublox_reader.dir/src/ublox_reader.cpp.s
 .PHONY : src/ublox_reader.cpp.s
 
 # Help Target
@@ -1383,12 +1540,13 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install"
-	@echo "... list_install_components"
+	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... gnss_grid_core"
-	@echo "... rebuild_cache"
-	@echo "... testgns"
+	@echo "... install"
+	@echo "... list_install_components"
+	@echo "... ublox_reader"
+	@echo "... test_gnss_grid"
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... codegen/codegen_main.o"
@@ -1508,6 +1666,9 @@ help:
 	@echo "... src/serial.o"
 	@echo "... src/serial.i"
 	@echo "... src/serial.s"
+	@echo "... src/test_gnss_grid.o"
+	@echo "... src/test_gnss_grid.i"
+	@echo "... src/test_gnss_grid.s"
 	@echo "... src/ublox_reader.o"
 	@echo "... src/ublox_reader.i"
 	@echo "... src/ublox_reader.s"

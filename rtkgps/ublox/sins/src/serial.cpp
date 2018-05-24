@@ -229,7 +229,7 @@ bool Serial::Open(const char * devName) {
 #ifdef __APPLE__
   ReconfigurePort(fd);
 #else  
-  set_speed(fd, 115200);
+  set_speed(fd, 9600);
   if(set_Parity(fd,8,1,'N'))
   {
     std::cout<<"ERROR: set parity error. \n"<<std::endl;
@@ -266,6 +266,8 @@ void Serial::Read(unsigned char * buf, int * readSize) {
   *readSize = 0;
   if(rc > 0) {
     *readSize = read(fd, buf, 256);
+ //   buf[*readSize] = '/0';
+  //  printf("%s\n",buf);
   }
 }
 

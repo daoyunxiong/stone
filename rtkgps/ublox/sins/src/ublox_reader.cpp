@@ -11,8 +11,8 @@
 #include "codegen_main.h"
 #include <chrono>
 
-#define OutputSerialRead
-#define OutputubxRead
+#define OutputSerialRead 1
+#define OutputubxRead 1
 
 DEFINE_string(serialName, "/dev/ttyACM0", "serial port name");
 
@@ -37,7 +37,6 @@ void set_origin(double x,double y)
   orign_x = x;
   orign_y = y;
 }
-
 
 static bool checksum(uint8_t *buffer,uint32_t len)
 {
@@ -65,11 +64,17 @@ static bool checksum(uint8_t *buffer,uint32_t len)
 // ./ublox_reader --log_dir=. --v=1
 int main(int argc, char *argv[])
 {
-//	FLAGS_log_dir = "/home/ubuntu/xigua/sins/build/log";
+  FLAGS_log_dir = "./log";
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, false);
   google::InstallFailureSignalHandler();
   codegen_main();
+
+  LOG(INFO) << "I am INFO!";
+  LOG(WARNING) << "I am WARNING!";
+  VLOG(1) << " I am vlog";
+ // LOG(ERROR) << "I am ERROR!";
+ // LOG(FATAL) << "I am FATAL!";
 
   Serial ubloxSerial;
   bool ret = ubloxSerial.Open(FLAGS_serialName.c_str());
@@ -78,6 +83,7 @@ int main(int argc, char *argv[])
     return -1;
   }
 
+  VLOG(1) << "FINE";
   unsigned char buf[1024];
   int readSize;
   //static unsigned char dataBuf[1024];
@@ -85,14 +91,33 @@ int main(int argc, char *argv[])
   CircleBuffer circleBuf(1024);
   while(1) 
   {
+ //   sleep(1);
+ //   printf("ok \n");
     ubloxSerial.Read(buf, &readSize);
-    readSize = 1;
-    buf[0]='1';
+
+    if(readSize > 0){
+    //buf[readSize] = '\0';
+    char *start;
+ //   start = memchr(buf, '$', 100);
+ //   if(buf[0] == '$' && buf[1] == 'G' && buf[2] == 'N' && buf[3] == 'G' && buf[4] == 'G'  )
+ //     printf("the gga %s",buf);
+    }
+  //  cout << *start << endl; 
+//    std::cout << buf << endl;
+ //   if(! readSize)
+  //    continue; 
+  //  std::cout << readSize << std::endl;
+//    readSize = 1;
+  //  buf[0]='1';
+  // cout << (int)buf[0] << endl;
 		#ifdef OutputSerialRead
     std::stringstream ss;
     for(int i=0; i<readSize; i++) {
         ss<<std::hex<<"0x"<<std::setfill('0')<<std::setw(2)<<(int)buf[i]<<" ";
+    // cout << (int)buf[i] << endl;
+   // printf("the num %x \n", buf[i]);
     }
+   // cout << ss.str() << endl;
     if(readSize > 0) {
       VLOG(1)<<"read: "<<ss.str();
     }
@@ -115,6 +140,7 @@ static bool AnalysisPackage(CircleBuffer * circleBuf, struct UbxNavPvt *pvt)
     int lens = circleBuf->DataLength();
     circleBuf->Pop(data,lens);
     
+ //  cout << "this " << endl;
     if (lens==100 && data[0] == 0xb5 && data[1] == 0x62 && data[2] == 0x01 && data[3] == 0x07)
     {
       if(checksum(&data[2],lens-2))
@@ -150,7 +176,7 @@ static bool AnalysisPackage(CircleBuffer * circleBuf, struct UbxNavPvt *pvt)
 				grid_y = (int32_t)(delta_x);
 
 
-        std::cout<<delta_x<<","<<delta_y<<","<<grid_x<<","<<grid_y<<std::endl;
+       // std::cout<<delta_x<<","<<delta_y<<","<<grid_x<<","<<grid_y<<std::endl;
 
         #ifdef OutputubxRead
         std::stringstream ss;
@@ -190,7 +216,12 @@ static bool AnalysisPackage(CircleBuffer * circleBuf, struct UbxNavPvt *pvt)
         ss<<grid_x<<",";
         ss<<grid_y;
 
-
+cout<< "tow:" << pvt->iTOW << endl;
+cout<< "lon:" << pvt->lon << endl;
+cout << "lat:" << pvt->lat << endl;
+//        cout << "height" << pvt->height << endl;
+cout << "pdop" << pvt->pDOP << endl;
+cout << "ftype" << (int)pvt->fixType << endl;
         VLOG(1)<<"read: "<<ss.str();
         #endif
 

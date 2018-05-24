@@ -83,7 +83,10 @@ add_library(gnss_grid_core STATIC
 target_include_directories(gnss_grid_core INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(gnss_grid_core tjhPubliser ${EXT_LIBS})
 include_directories(${Publisher_INC})
+include_directories(./include)
 
-add_executable(testgns ${gnss_src} src/ublox_reader.cpp)
-target_link_libraries(testgns ${EXT_LIBS})
+add_executable(ublox_reader ${gnss_src} src/ublox_reader.cpp)
+add_executable(test_gnss_grid ${gnss_src} src/test_gnss_grid.cpp)
+target_link_libraries(ublox_reader ${EXT_LIBS})
+target_link_libraries(test_gnss_grid ${EXT_LIBS})
 

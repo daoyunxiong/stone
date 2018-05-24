@@ -35,8 +35,8 @@ extern struct rtk_data_t rtk_data;
 
 int main(int argc, char** argv)
 {
-  char port_name[] = "/dev/ttyUSB0";
-//  char port_name[] = "/dev/ttyACM0";
+//char port_name[] = "/dev/ttyUSB0";
+  char port_name[] = "/dev/ttyACM0";
   char *port_p = port_name;
  
   RTK_GPS rtk_gps(port_p);
@@ -65,7 +65,7 @@ int main(int argc, char** argv)
  //   printf("vel_ned_n:%d  vel_ned_e:%d \n", (*(rtk_gps.vel_ned_data_p)).n, (*(rtk_gps.vel_ned_data_p)).e);
   //  printf("heading is %f \n", *(rtk_gps.heading_data_p));
    // rtk_data = rtk_gps.get_rtk_gps_data();
-    usleep(20001);
+   // usleep(20001);
    // printf("tow, lat, lon: %d, %4.10lf,%4.10lf \n ", rtk_data.pos_llh.tow, rtk_data.pos_llh.lat, rtk_data.pos_llh.lon);
    // printf("tow,n_sats,flags %d,%d,%d \n", (int)rtk_data.pos_llh.tow, (int)rtk_data.pos_llh.n_sats, (int)rtk_data.pos_llh.flags);    
   // printf("acc %d %f %f %f \n",  rtk_data.imu_data.tow, rtk_data.imu_data_cal.acc_xx, rtk_data.imu_data_cal.acc_yy, rtk_data.imu_data_cal.acc_zz);

@@ -29,9 +29,9 @@ Description:
 #include <libsbp/mag.h>
 
 #include "utm.h"
-#include "MadgwickAHRS.h"
-#include "MahonyAHRS.h"
-//#include "Kalman.h"
+//#include "MadgwickAHRS.h"
+//#include "MahonyAHRS.h"
+#include "Kalman.h"
 
 #include <boost/signals2/signal.hpp>
 
@@ -54,18 +54,14 @@ typedef struct {
     msg_mag_raw_t mag_data_raw;
     msg_vel_ecef_t vel_ecef_data;
     msg_vel_ned_t vel_ned_data;
+    msg_baseline_ned_t baseline_ned_data;
     double heading_data;
     double heading_mag;
+    float heading_kalman;
     UTMCoor utmcoor;
     WGS84Corr wgs84coor;
 }rtk_data_t;
 
-
-
-//
-//int  set_gps_data(rtk_data_t* data, u8 msg[], int type);
-//rtk_data_t get_gps_data();
-//
 //void setup_port();
 //void heartbeat_callback(u16 sender_id, u8 len, u8 msg[], void *context);
 //void sbp_gps_time_callback(u16 sender_id, u8 len, u8 msg[], void *context);
@@ -87,8 +83,10 @@ typedef struct {
 typedef boost::signals2::signal<void(rtk_data_t &)> GPS_signal_t;
 typedef boost::signals2::signal<void(rtk_data_t &)> IMU_signal_t;
 typedef boost::signals2::signal<void(rtk_data_t &)> MAG_signal_t;
+typedef boost::signals2::signal<void(rtk_data_t &)> NED_signal_t;
+typedef boost::signals2::signal<void(rtk_data_t &)> BaselineNED_signal_t;
 
-//#define DEBUG 0
+#define DEBUG 0
 //#define ADJUST 0
 //#define BASESTATION 0
 #define ROVER 0
@@ -126,9 +124,9 @@ typedef boost::signals2::signal<void(rtk_data_t &)> MAG_signal_t;
 #define GY_OFFSET -19
 #define GZ_OFFSET 15
 
-#define MAGNETOMETER_ORIGIN_X   -771  //the original point of magnetometer output data
-#define MAGNETOMETER_ORIGIN_Y   -103  //the original point of magnetometer output data
-#define MAGNETOMETER_ORIGIN_Z   136  //the original point of magnetometer output data
+#define MAGNETOMETER_ORIGIN_X   -371  //the original point of magnetometer output data
+#define MAGNETOMETER_ORIGIN_Y   242  //the original point of magnetometer output data
+#define MAGNETOMETER_ORIGIN_Z   165  //the original point of magnetometer output data
 #endif
 
 typedef struct{
@@ -151,6 +149,8 @@ public:
     boost::signals2::connection subscribeToGPS(const GPS_signal_t::slot_type &subscriber);
     boost::signals2::connection subscribeToIMU(const IMU_signal_t::slot_type &subscriber);
     boost::signals2::connection subscribeToMAG(const MAG_signal_t::slot_type &subscriber);
+    boost::signals2::connection subscribeToNED(const NED_signal_t::slot_type &subscriber);
+    boost::signals2::connection subscribeToBaselineNED(const NED_signal_t::slot_type &subscriber);
 
     void setup_port();
     int open_serial_port(char* port);
@@ -159,7 +159,7 @@ public:
     int close_port();
 
 private:
-    int static set_gps_data(rtk_data_t* data, u8 msg[], int type);
+    int static set_gps_data(rtk_data_t &data, u8 msg[], int type);
     u32 static piksi_port_read(u8 *buff, u32 n, void *context);
 
     void static heartbeat_callback(u16 sender_id, u8 len, u8 msg[], void *context);
@@ -169,6 +169,7 @@ private:
     void static sbp_mag_callback(u16 sender_id, u8 len, u8 msg[], void *context);
     void static sbp_vel_ecef_callback(u16 sender_id, u8 len, u8 msg[], void *context);
     void static sbp_vel_ned_callback(u16 sender_id, u8 len, u8 msg[], void *context);
+    void static sbp_baseline_ned_callback(u16 sender_id, u8 len, u8 msg[], void *context);
 
     static sbp_msg_callbacks_node_t heartbeat_callback_node;
     static sbp_msg_callbacks_node_t gps_time_node;
@@ -177,6 +178,7 @@ private:
     static sbp_msg_callbacks_node_t pos_mag_node;
     static sbp_msg_callbacks_node_t vel_ecef_node;
     static sbp_msg_callbacks_node_t vel_ned_node;
+    static sbp_msg_callbacks_node_t baseline_ned_node;
 
     static rtk_data_t rtk_data;
 
@@ -187,13 +189,41 @@ private:
     bool threadActive;
     std::thread *GPS_thread;
 
+    double vw;
+
+ 
+//subscribe message
     static GPS_signal_t m_GPS_sig;
     static IMU_signal_t m_IMU_sig;
     static MAG_signal_t m_MAG_sig;
+    static NED_signal_t m_NED_sig;
+    static BaselineNED_signal_t m_BaselineNED_sig;
 
+//kalman filter
+//    static int ax_i, ay_i, az_i;
+//    static int gx_i, gy_i, gz_i;
+//    static int mx_i, my_i, mz_i;
+//    static float ax, ay, az;
+//    static float gx, gy, gz;
+//    static float mx, my, mz;
+//    static float roll;
+//    static float pitch;
+//    static float heading;
+    
+//    static Madgwick *filter;
+//    static Kalman *kalman_filter;
+    //MahonyAHRS filter;
+
+//    static float newangle;
+//    static float dt;
+//    static float angle;
+
+    //static int buf[8][3];
 public:
     static float convertRawGyro(int gRaw);
     static float convertRawAcceleration(int aRaw);
+    void static kalman_heading_update(rtk_data_t &data);
+    void static magnetic_heading_update(rtk_data_t &data);
   //  static Madgwick filter;
   //  static int ax_i, ay_i, az_i;
   //  static int gx_i, gy_i, gz_i;

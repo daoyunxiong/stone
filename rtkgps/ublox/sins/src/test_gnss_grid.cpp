@@ -38,14 +38,14 @@ int main(int argc, char *argv[])
   google::ParseCommandLineFlags(&argc, &argv, false);
   google::InstallFailureSignalHandler();
 
-  PI::PerceptInGen1Interface::ImuData imu_data;
-  PI::PerceptInGen1Interface interface(PI::PerceptInGen1Interface::StereoFrameRate::STEREO_FRAME_RATE_30HZ, true);
+//  PI::PerceptInGen1Interface::ImuData imu_data;
+//  PI::PerceptInGen1Interface interface(PI::PerceptInGen1Interface::StereoFrameRate::STEREO_FRAME_RATE_30HZ, true);
 
-  if (!interface.StartStreaming()) {
-    std::cout<<("Failed to stream PerceptIn Gen1 device.\n")<<std::endl;
-    return -1;
-  }
-
+//  if (!interface.StartStreaming()) {
+//    std::cout<<("Failed to stream PerceptIn Gen1 device.\n")<<std::endl;
+//    return -1;
+//  }
+/*
   Gnss_grid mGnss_grid;
   bool ret = mGnss_grid.Init(FLAGS_serialName);
   if(!ret)
@@ -54,6 +54,8 @@ int main(int argc, char *argv[])
   mGnss_grid.set_origin(xm_origin_x,xm_origin_y,1);
   signal(SIGINT, intSigintHandler);
   float signal_quality,hdop;
+*/  
+/*
   while(!isExit)
   {
     mGnss_grid.RunOnce();
@@ -73,13 +75,35 @@ int main(int argc, char *argv[])
     }
     usleep(10000);
   }
+*/
 
-  mGnss_grid.Finish();
-
-  if (!interface.StopStreaming()) {
-    std::cout<<("Failed to stop streaming.  :(\n")<<std::endl;
+// {
+ Gnss_grid mGnss_grid;
+ int ret = mGnss_grid.Init(FLAGS_serialName);
+  if(!ret)
     return -1;
+
+  mGnss_grid.start();
+ // init_kbhit();
+
+  while(1) {
+    usleep(1000);
+//    if(kbhit()) {
+//      const int key = getchar();
+//      if(key == 0x1b || key == 'q') {
+//        break;
+//      }
+//    }
   }
+  mGnss_grid.Finish();
+  while(!mGnss_grid.isStopped());
+//  }
+
+//  mGnss_grid.Finish();
+//  if (!interface.StopStreaming()) {
+//    std::cout<<("Failed to stop streaming.  :(\n")<<std::endl;
+//    return -1;
+//  }
 }
 
 

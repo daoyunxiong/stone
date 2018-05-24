@@ -8,7 +8,7 @@
 #include <thread>
 
 #include <opencv2/core/core.hpp>
-#include <libuvc/libuvc.h>
+//#include <libuvc/libuvc.h>
 
 namespace PI {
 
@@ -126,7 +126,7 @@ class PerceptInGen1Interface {
    *        image to the stereo queue.
    * @param frame The UVC frame to convert.
    */
-  void StreamStereo(uvc_frame_t *frame);
+ // void StreamStereo(uvc_frame_t *frame);
 
  private:
 
@@ -142,9 +142,9 @@ class PerceptInGen1Interface {
   const bool stream_imu_;
 
   /// UVC
-  uvc_context_t *ctx_;
-  uvc_device_t *dev_;
-  uvc_device_handle_t *devh_;
+ // uvc_context_t *ctx_;
+ // uvc_device_t *dev_;
+ // uvc_device_handle_t *devh_;
 
   /// Stereo data to be deployed.
   std::queue<StereoData> queue_stereo_;

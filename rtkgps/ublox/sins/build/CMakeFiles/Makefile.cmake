@@ -119,5 +119,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/gnss_grid_core.dir/DependInfo.cmake"
-  "CMakeFiles/testgns.dir/DependInfo.cmake"
+  "CMakeFiles/ublox_reader.dir/DependInfo.cmake"
+  "CMakeFiles/test_gnss_grid.dir/DependInfo.cmake"
   )

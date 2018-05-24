@@ -1,0 +1,4 @@
+Log file created at: 2018/03/26 12:24:24
+Running on machine: ubuntu
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0326 12:24:24.956707 70296 ublox_reader.cpp:74] I am INFO!
