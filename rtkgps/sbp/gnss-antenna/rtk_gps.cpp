@@ -33,7 +33,8 @@ void imu_data_process(msg_imu_raw_t& raw_data,imu_data_t& data){
     data.gyr_z=(M_PI/180.0)*raw_data.gyr_z/32.8;
 };
 
-RTK_GPS::RTK_GPS(char *port):threadActive(true){
+RTK_GPS::RTK_GPS(char *port, int serial_num):threadActive(true){
+	gps_read_flag = serial_num;
     open_serial_port(port);
     setup_port();
     setup_sbp();
@@ -51,7 +52,7 @@ RTK_GPS::~RTK_GPS(){
 
 int RTK_GPS::set_gps_data(rtk_data_t &data, u8 msg[], int type)
 {
-    pthread_rwlock_wrlock(&rwlock);
+  //  pthread_rwlock_wrlock(&rwlock);
     switch(type){
         case SBP_MSG_GPS_TIME:
             data.gps_time = *(msg_gps_time_t *)msg;
@@ -63,49 +64,11 @@ int RTK_GPS::set_gps_data(rtk_data_t &data, u8 msg[], int type)
               xcoor = data.utmcoor.x;
               ycoor = data.utmcoor.y;
             }
+			printf("llh %d,%f,%f\n",data.pos_llh.tow, data.pos_llh.lat, data.pos_llh.lon);
             break;
         case SBP_MSG_IMU_RAW:
             data.imu_data_raw = *(msg_imu_raw_t* )msg;
             kalman_heading_update(data);
-#if 0
-     int ax_i = rtk_data.imu_data_raw.acc_x - AX_OFFSET;
-     int ay_i = rtk_data.imu_data_raw.acc_y - AY_OFFSET;
-     int az_i = rtk_data.imu_data_raw.acc_z - AZ_OFFSET - 16384 ;//16384
-     int gx_i = rtk_data.imu_data_raw.gyr_x - GX_OFFSET;
-     int gy_i = rtk_data.imu_data_raw.gyr_y - GY_OFFSET;
-     int gz_i = rtk_data.imu_data_raw.gyr_z - GZ_OFFSET;
-     int mx_i = rtk_data.mag_data_raw.mag_x - MAGNETOMETER_ORIGIN_X;
-     int my_i = rtk_data.mag_data_raw.mag_y - MAGNETOMETER_ORIGIN_Y;
-     int mz_i = rtk_data.mag_data_raw.mag_z - MAGNETOMETER_ORIGIN_Z;
-	//    if(abs(gx_i) < 10) gx_i = 0;
-	//    if(abs(gy_i) < 10) gy_i = 0;
-	//    if(abs(gz_i) < 10) gz_i = 0;
-#ifdef DEBUG
-        printf("tow acc gyo mag %d, %d,%d,%d,%d,%d,%d,%d,%d,%d \n", rtk_data.imu_data_raw.tow, ax_i, ay_i, az_i, gx_i, gy_i, gz_i, mx_i, my_i, mz_i);
-#endif
-     float ax = RTK_GPS::convertRawAcceleration(ax_i);
-     float ay = RTK_GPS::convertRawAcceleration(ay_i);
-     float az = RTK_GPS::convertRawAcceleration(az_i);
-     float gx = RTK_GPS::convertRawGyro(gx_i);
-     float gy = RTK_GPS::convertRawGyro(gy_i);
-     float gz = RTK_GPS::convertRawGyro(gz_i);
-     float mx = - (float) mx_i;
-     float my = - (float) my_i;
-     float mz = - (float) mz_i;
-                    
-     float heading = heading + gz * 0.02;
-          // filter.update(gx, gy, gz, ax, ay, az, mx, my, mz);
-           //filter.updateIMU(gx, gy, gz, ax, ay, az);
-        
-            // print the heading, pitch and roll
-           // roll = filter.getRoll();
-           // pitch = filter.getPitch();
-           // heading = filter.getYaw();
-#ifndef DEBUG        
-        //  printf("Orientation: heading=%f  pitch=%f  roll=%f MAG heading=%f\n", heading, pitch, roll, rtk_data.heading_mag);
-#endif
-          //  printf("%f,%f,%f,%f,%f,%f,%f,%f,%f \n", ax, ay, az, gx, gy, gz, mx, my, mz);
-#endif
             break;
         case SBP_MSG_MAG_RAW: //output magnetometer heading angle
             data.mag_data_raw = *(msg_mag_raw_t* )msg;
@@ -135,11 +98,12 @@ int RTK_GPS::set_gps_data(rtk_data_t &data, u8 msg[], int type)
             break;
         case SBP_MSG_BASELINE_HEADING:
             data.baseline_heading_data = *(msg_baseline_heading_t*)msg;
+			printf("two an heading %d, %f\n",data.baseline_heading_data.tow, float( data.baseline_heading_data.heading / 1000));
             break;
         default:
             break;
     }
-    pthread_rwlock_unlock(&rwlock);
+ //   pthread_rwlock_unlock(&rwlock);
     return 0;
 }
 
@@ -222,38 +186,6 @@ void RTK_GPS::kalman_heading_update(rtk_data_t &data)
     float gyroYrate = gy; // Convert to deg/s
     float gyroZrate = gz; // Convert to deg/s
 
-#if 0
-    if ((roll < -90 && kalAngleX > 90) || (roll > 90 && kalAngleX < -90)) {
-      kalmanX.setAngle(roll);
-     // compAngleX = roll;
-     // kalAngleX = roll;
-     // gyroXangle = roll;
-    } else
-      kalAngleX = kalmanX.getAngle(roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
-
-    if (abs(kalAngleX) > 90)
-      gyroYrate = -gyroYrate; // Invert rate, so it fits the restricted accelerometer reading
-    kalAngleY = kalmanY.getAngle(pitch, gyroYrate, dt);
-
-// update yaw angle
-  double rollAngle = kalAngleX * DEG_TO_RAD;
-  double pitchAngle = kalAngleY * DEG_TO_RAD;
-  double Bfy = mz_i * sin(rollAngle) - mz_i * cos(rollAngle);
-  double Bfx = mx_i * cos(pitchAngle) + my_i * sin(pitchAngle) * sin(rollAngle) + mz_i * sin(pitchAngle) * cos(rollAngle);
- 
-  yaw = atan2(-Bfy, Bfx) * RAD_TO_DEG;
-  yaw *= -1;
-
-  if ((yaw < -90 && kalAngleZ > 90) || (yaw > 90 && kalAngleZ < -90)) {
-    kalmanZ.setAngle(yaw);
-  } else
-    kalAngleZ = kalmanZ.getAngle(yaw, gyroZrate, dt);
-
-  compAngleX = 0.93 * (compAngleX + gyroXrate * dt) + 0.07 * roll; // Calculate the angle using a Complimentary filter
-  compAngleY = 0.93 * (compAngleY + gyroYrate * dt) + 0.07 * pitch;
-  compAngleZ = 0.93 * (compAngleZ + gyroZrate * dt) + 0.07 * yaw;
-
-#endif
     newangle = data.heading_mag;
     if((newangle < 90 && angle > 270) || (newangle > 270 && angle < 90))
     {
@@ -273,18 +205,6 @@ void RTK_GPS::kalman_heading_update(rtk_data_t &data)
       data.heading_kalman = angle_gyr + gz * dt;
       angle_gyr += gz * dt;
     }
-       
-  float accn = ax * cos((90 - angle) * M_PI/180) + ay * sin((90 - angle) * M_PI/180);
-  float acce = ay * cos((90 - angle) * M_PI/180) - ax * sin((90 - angle) * M_PI/180);
-
-  ycoor += vn_g * dt + 0.5 * accn * dt * dt;
-  xcoor += ve_g * dt + 0.5 * acce * dt * dt;
-
-  vn_g += accn * dt;
-  ve_g += acce * dt;
-
-  data.utmcoor.x = xcoor;
-  data.utmcoor.y = ycoor;
 }
 
 void RTK_GPS:: magnetic_heading_update(rtk_data_t &data)
@@ -463,24 +383,28 @@ int RTK_GPS::open_serial_port(char* port)
 int RTK_GPS::setup_sbp()
 {
     sbp_state_init(&s);
-    sbp_register_callback(&s, SBP_MSG_HEARTBEAT, &RTK_GPS::heartbeat_callback, NULL,
-                          &RTK_GPS::heartbeat_callback_node);
-    sbp_register_callback(&s, SBP_MSG_GPS_TIME, &RTK_GPS::sbp_gps_time_callback,
-                          NULL, &RTK_GPS::gps_time_node);
-    sbp_register_callback(&s, SBP_MSG_POS_LLH, &RTK_GPS::sbp_pos_llh_callback,
-                          NULL, &RTK_GPS::pos_llh_node);
-    sbp_register_callback(&s, SBP_MSG_IMU_RAW, &RTK_GPS::sbp_imu_callback,
-                          NULL, &RTK_GPS::pos_imu_node);
-    sbp_register_callback(&s, SBP_MSG_MAG_RAW, &RTK_GPS::sbp_mag_callback,
-                          NULL, &RTK_GPS::pos_mag_node);
-    sbp_register_callback(&s, SBP_MSG_VEL_ECEF, &RTK_GPS::sbp_vel_ecef_callback,
-                          NULL, &RTK_GPS::vel_ecef_node);
-    sbp_register_callback(&s, SBP_MSG_VEL_NED, &RTK_GPS::sbp_vel_ned_callback,
-                          NULL, &RTK_GPS::vel_ned_node);
-    sbp_register_callback(&s, SBP_MSG_BASELINE_NED, &RTK_GPS::sbp_baseline_ned_callback,
-                          NULL, &RTK_GPS::baseline_ned_node);
-    sbp_register_callback(&s, SBP_MSG_BASELINE_HEADING, &RTK_GPS::sbp_baseline_heading_callback,
+	if(gps_read_flag == 1){
+      sbp_register_callback(&s, SBP_MSG_HEARTBEAT, &RTK_GPS::heartbeat_callback, NULL,
+                            &RTK_GPS::heartbeat_callback_node);
+      sbp_register_callback(&s, SBP_MSG_GPS_TIME, &RTK_GPS::sbp_gps_time_callback,
+                            NULL, &RTK_GPS::gps_time_node);
+      sbp_register_callback(&s, SBP_MSG_POS_LLH, &RTK_GPS::sbp_pos_llh_callback,
+                            NULL, &RTK_GPS::pos_llh_node);
+  //    sbp_register_callback(&s, SBP_MSG_IMU_RAW, &RTK_GPS::sbp_imu_callback,
+  //                          NULL, &RTK_GPS::pos_imu_node);
+  //    sbp_register_callback(&s, SBP_MSG_MAG_RAW, &RTK_GPS::sbp_mag_callback,
+  //                          NULL, &RTK_GPS::pos_mag_node);
+      sbp_register_callback(&s, SBP_MSG_VEL_ECEF, &RTK_GPS::sbp_vel_ecef_callback,
+                            NULL, &RTK_GPS::vel_ecef_node);
+      sbp_register_callback(&s, SBP_MSG_VEL_NED, &RTK_GPS::sbp_vel_ned_callback,
+                            NULL, &RTK_GPS::vel_ned_node);
+      sbp_register_callback(&s, SBP_MSG_BASELINE_NED, &RTK_GPS::sbp_baseline_ned_callback,
+                            NULL, &RTK_GPS::baseline_ned_node);
+  	}
+	else{
+      sbp_register_callback(&s, SBP_MSG_BASELINE_HEADING, &RTK_GPS::sbp_baseline_heading_callback,
                           NULL, &RTK_GPS::baseline_heading_node);
+	}
     return 0;
 }
 

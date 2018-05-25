@@ -126,7 +126,7 @@ void imu_data_process(msg_imu_raw_t&,imu_data_t&);
 
 class RTK_GPS{
 public:
-    RTK_GPS(char *port);
+    RTK_GPS(char *port, int num);
     ~RTK_GPS();
     rtk_data_t get_gps_data();
 
@@ -192,6 +192,7 @@ public:
     void static magnetic_heading_update(rtk_data_t &data);
     
 private:
+	int gps_read_flag;
     static float yaw;
     static float roll;
     static float pitch; 
