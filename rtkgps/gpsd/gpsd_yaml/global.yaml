@@ -1,0 +1,7 @@
+debug:
+  antenna_num: 1
+  port_num: 1
+  port_pos: /dev/ttyACM0
+  port_heading: /dev/ttyUSB0
+  install_orientation: 0
+  refresh_frequency: 5

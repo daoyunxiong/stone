@@ -1,0 +1,6 @@
+debug:
+  antenna_num: 2
+  port_pos: /dev/ttyACM0
+  port_heading: /dev/ttyUSB0
+  install_orientation: 0
+  host_url: tcp://192.168.1.108

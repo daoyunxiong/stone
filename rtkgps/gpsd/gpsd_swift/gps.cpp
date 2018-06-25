@@ -27,14 +27,14 @@ void read_gps(gpsmm *gps_rec) {
     struct gps_data_t *gpsd_data;
     if (!gps_rec->waiting(100000))
       continue;
-    if ((gpsd_data = gps_rec->read()) == NULL){
+    if ((gpsd_data = gps_rec->read()) == NULL) {
       std::cout << "GPSD read error.\n";
       return;
     } else {
       while (((gpsd_data = gps_rec->read()) == NULL) ||
              (gpsd_data->fix.mode < MODE_2D)) {
         // Do nothing until fix
-		;
+        ;
       }
 
       std::cout.precision(12);
