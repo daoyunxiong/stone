@@ -36,17 +36,19 @@ typedef struct {
   double altitude;
   double utmx;
   double utmy;
-  int pos_status;
-  int heading_status;
   double reference_heading; 
   double attitude_heading;
+  int pos_status;
+  int heading_status;
   int gps_mode;
   UTMCoor utm;
-  WGS84Corr llh_t;
-  int status;
+} rtk_data_t;
+
+typedef struct {
   int satelites_num;
   double gdop;
-} rtk_data_t;
+  double sn_ratio;
+} rtk_aux_msg;
 
 class RtkReading {
 public:
@@ -54,16 +56,15 @@ public:
   ~RtkReading();
 
  rtk_data_t get_rtk_data();
+ rtk_aux_msg get_rtk_aux_data();
 
 private:
   double getCurrentTicks();
   int set_rtk_data(int flag);
-  int set_rtk_heading_data(int flag);
-  void process(int flag);
-  void process_heading(int flag);
   int init_gpsd(char *port_pos, char *port_heading);
   int close_gpsd();
   rtk_data_t rtk_data;
+  rtk_aux_msg rtk_aux_data;
   std::thread *Gps_thread_pos;
   std::thread *Gps_thread_heading;
   bool threadActive;

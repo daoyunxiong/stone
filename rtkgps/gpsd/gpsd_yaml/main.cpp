@@ -41,10 +41,11 @@ int main(int argc, char** argv) {
 	char *config_path = argv[1];
 	RtkReading rtkRead(config_path);
 	rtk_data_t rtk_data;
+	rtk_aux_msg rtk_aux_data;
 
 	while (gReadGps) {
 		rtk_data = rtkRead.get_rtk_data();
-		
+		rtk_aux_data = rtkRead.get_rtk_aux_data();
 		cout << std::setprecision(12);
 		cout << rtk_data.local_time << " " 
 			 << rtk_data.gps_time << " "
@@ -54,12 +55,15 @@ int main(int argc, char** argv) {
 			 << rtk_data.utmx << " " 
 			 << rtk_data.utmy << " "
 			 << rtk_data.pos_status << " "
+			 << rtk_data.heading_status << " "
 			 << rtk_data.reference_heading << " "
 			 << rtk_data.attitude_heading << " "
 			 << rtk_data.gps_mode << " "
+			 << rtk_aux_data.sn_ratio << " "
+			 << rtk_aux_data.satelites_num << " "
 			 << std::endl;
 			 
-		usleep(200000);
+		usleep(100000);
 	}
 	return 0;
 }
